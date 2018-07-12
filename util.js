@@ -64,3 +64,27 @@ export function isEmpty(obj) {
     }
     return false;
 }
+
+export function doScroll(el, time) {
+    time = time || 400
+    let top = document.documentElement.scrollTop
+    let targetTop = top + el.getBoundingClientRect().top
+    let step = Math.ceil(Math.abs(top - targetTop) / time * 1000 / 60)
+
+    window.requestAnimationFrame(handle)
+
+    function handle() {
+        let top = document.documentElement.scrollTop
+        if (Math.abs(top - targetTop) < step) step = Math.abs(top - targetTop)
+
+        if (top > targetTop) {
+            document.documentElement.scrollTop -= step
+        } else if (top < targetTop) {
+            document.documentElement.scrollTop += step
+        }
+
+        if (Math.abs(top - targetTop) > step) {
+            window.requestAnimationFrame(handle)
+        }
+    }
+}
