@@ -65,26 +65,59 @@ export function isEmpty(obj) {
     return false;
 }
 
+export function getScrollTop () {
+    return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+}
+
+export function setScrollTop (top) {
+    document.documentElement.scrollTop = document.body.scrollTop = top;
+}
+
 export function doScroll(el, time) {
-    time = time || 400
-    let top = document.documentElement.scrollTop
-    let targetTop = top + el.getBoundingClientRect().top
-    let step = Math.ceil(Math.abs(top - targetTop) / time * 1000 / 60)
+    if (el) {
+        let getScrollTop = function() {
+            return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+        };
 
-    window.requestAnimationFrame(handle)
+        let setScrollTop = function(top) {
+            document.documentElement.scrollTop = document.body.scrollTop = top;
+        };
 
-    function handle() {
-        let top = document.documentElement.scrollTop
-        if (Math.abs(top - targetTop) < step) step = Math.abs(top - targetTop)
+        time = time || 400;
+        let top = getScrollTop();
+        let targetTop = top + el.getBoundingClientRect().top;
+        let dir = top < targetTop ? 'down' : 'up';
+        let step = Math.ceil(Math.abs(top - targetTop) / time * 1000 / 60);
+        let topArr = [top];
 
-        if (top > targetTop) {
-            document.documentElement.scrollTop -= step
-        } else if (top < targetTop) {
-            document.documentElement.scrollTop += step
-        }
+        let handle = function() {
+            let top = getScrollTop();
+            if (Math.abs(top - targetTop) < step) {
+                step = Math.abs(top - targetTop);
+            }
 
-        if (Math.abs(top - targetTop) > step) {
-            window.requestAnimationFrame(handle)
-        }
+            if (top > targetTop) {
+                setScrollTop(top - step);
+            } else if (top < targetTop) {
+                setScrollTop(top + step);
+            }
+
+            let newTop = getScrollTop();
+
+            let next = topArr.every((item) => {
+                if (dir == 'down') {
+                return newTop > item;
+            }
+            return newTop < item;
+
+        });
+
+            if (next) {
+                topArr.push(newTop);
+                window.requestAnimationFrame(handle);
+            }
+        };
+
+        window.requestAnimationFrame(handle);
     }
 }
