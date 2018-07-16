@@ -121,3 +121,13 @@ export function doScroll(el, time) {
         window.requestAnimationFrame(handle);
     }
 }
+
+// 元素是否在当前视野内
+export function insideView(el) {
+    let rect = el.getBoundingClientRect();
+
+    if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+        return true;
+    }
+    return false;
+}
