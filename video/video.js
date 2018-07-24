@@ -243,7 +243,7 @@ let content = BaseComponent.extend({
             let progress = video.currentTime / video.duration;
             let delta = progress * progressBar.offsetWidth - dotWidth / 2;
 
-            return this.getTranslate('X', delta.toFixed(1));
+            return this.getTranslate('X', delta.toFixed(0));
         },
         currentProgressWidth(data) {
             let {video} = data;
