@@ -73,6 +73,28 @@ export function setScrollTop (top) {
     document.documentElement.scrollTop = document.body.scrollTop = top;
 }
 
+export function getScrollHeight(){
+    var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+    if(document.body){
+        bodyScrollHeight = document.body.scrollHeight;
+    }
+    if(document.documentElement){
+        documentScrollHeight = document.documentElement.scrollHeight;
+    }
+    scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+    return scrollHeight;
+}
+
+export function getWindowHeight(){
+    var windowHeight = 0;
+    if(document.compatMode == "CSS1Compat"){
+        windowHeight = document.documentElement.clientHeight;
+    }else{
+        windowHeight = document.body.clientHeight;
+    }
+    return windowHeight;
+}
+
 export function doScroll(el, time) {
     if (el) {
         let getScrollTop = function() {
@@ -130,4 +152,21 @@ export function insideView(el) {
         return true;
     }
     return false;
+}
+
+// 子元素滚动到顶部或底部，父元素不滚动
+export function parentNotScroll() {
+    let func = (e) => {
+        let scrollTop = getScrollTop();
+        let scrollHeight = getScrollHeight();
+        let windowHeight = getWindowHeight();
+        let direction = e.deltaY > 0 ? 'down' : 'up';
+
+        if ((direction == 'down' && (scrollTop + windowHeight) >= scrollHeight)
+            || (direction == 'up' && scrollTop <= 0)) {
+            e.preventDefault();
+        }
+    };
+    window.removeEventListener('wheel', func);
+    window.addEventListener('wheel', func);
 }
