@@ -178,7 +178,7 @@ doScroll(document.body, 1000);
 
 判断是否是wifi环境，依赖navigator.connection兼容性
 
-- 不支持此属性，返回`true`
+- 不支持此属性或`type`属性不存在，返回`true`
 - 支持此属性且是`wifi`，返回`true`
 - 否则返回`false`
 
@@ -194,6 +194,8 @@ function isWifi() {
     }
     return true;
 }
+
+isWifi();
 ```
 
 ### networkChange
@@ -210,4 +212,8 @@ function networkChange(fn) {
     }
     return false;
 }
+
+networkChange((e, type) => {
+    console.log(type);
+});
 ```
