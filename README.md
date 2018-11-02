@@ -234,7 +234,6 @@ isBaidu();
 ```
 
 ### isUc
-### isIosUc
 
 uc浏览器
 
@@ -245,6 +244,10 @@ function isUc() {
 
 isUc();
 ```
+
+### isIosUc
+
+ios uc浏览器
 
 ```js
 function isIosUc() {
