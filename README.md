@@ -58,6 +58,62 @@ deepClone([], [1]);
 deepClone([], [1], [2]);
 ```
 
+## scroll（滚动）
+
+### getScrollTop
+
+获取元素的scrollTop
+
+```js
+function getScrollTop (el = window) {
+    const globalObj = [document, window, document.documentElement, document.body];
+    if (globalObj.indexOf(el) === -1) return el.scrollTop;
+    return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+}
+
+getScrollTop();
+getScrollTop(document.querySelector('div'));
+```
+
+### setScrollTop
+
+设置元素的scrollTop
+
+```js
+function setScrollTop (top, el = window) {
+    const globalObj = [document, window, document.documentElement, document.body];
+    if (globalObj.indexOf(el) === -1) return el.scrollTop = top;
+    document.documentElement.scrollTop = document.body.scrollTop = top;
+}
+
+setScrollTop(0);
+setScrollTop(0, document.querySelector('div'));
+```
+
+### getScrollHeight
+
+获取元素的scrollHeight
+
+```js
+function getScrollHeight(el = window){
+    const globalObj = [document, window, document.documentElement, document.body];
+    if (globalObj.indexOf(el) === -1) return el.scrollHeight;
+
+    let scrollHeight, bodyScrollHeight = 0, documentScrollHeight = 0;
+    if(document.body){
+        bodyScrollHeight = document.body.scrollHeight;
+    }
+    if(document.documentElement){
+        documentScrollHeight = document.documentElement.scrollHeight;
+    }
+    scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+    return scrollHeight;
+}
+
+getScrollHeight();
+getScrollHeight(document.querySelector('div'));
+```
+
 ### doScroll
 
 滚动到指定元素
@@ -116,59 +172,7 @@ doScroll(document.body);
 doScroll(document.body, 1000);
 ```
 
-### getScrollTop
-
-获取元素的scrollTop
-
-### setScrollTop
-
-设置元素的scrollTop
-
-### getScrollHeight
-
-获取元素的scrollHeight
-
-```js
-function getScrollTop (el = window) {
-    const globalObj = [document, window, document.documentElement, document.body];
-    if (globalObj.indexOf(el) === -1) return el.scrollTop;
-    return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-}
-
-getScrollTop();
-getScrollTop(document.querySelector('div'));
-```
-
-```js
-function setScrollTop (top, el = window) {
-    const globalObj = [document, window, document.documentElement, document.body];
-    if (globalObj.indexOf(el) === -1) return el.scrollTop = top;
-    document.documentElement.scrollTop = document.body.scrollTop = top;
-}
-
-setScrollTop(0);
-setScrollTop(0, document.querySelector('div'));
-```
-
-```js
-function getScrollHeight(el = window){
-    const globalObj = [document, window, document.documentElement, document.body];
-    if (globalObj.indexOf(el) === -1) return el.scrollHeight;
-
-    let scrollHeight, bodyScrollHeight = 0, documentScrollHeight = 0;
-    if(document.body){
-        bodyScrollHeight = document.body.scrollHeight;
-    }
-    if(document.documentElement){
-        documentScrollHeight = document.documentElement.scrollHeight;
-    }
-    scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
-    return scrollHeight;
-}
-
-getScrollHeight();
-getScrollHeight(document.querySelector('div'));
-```
+## network（网络）
 
 ### isWifi
 
@@ -177,10 +181,6 @@ getScrollHeight(document.querySelector('div'));
 - 不支持此属性，返回`true`
 - 支持此属性且是`wifi`，返回`true`
 - 否则返回`false`
-
-### networkChange
-
-监听网络状态变化，依赖navigator.connection兼容性
 
 ```js
 function isWifi() {
@@ -195,6 +195,10 @@ function isWifi() {
     return true;
 }
 ```
+
+### networkChange
+
+监听网络状态变化，依赖navigator.connection兼容性
 
 ```js
 function networkChange(fn) {
