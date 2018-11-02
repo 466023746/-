@@ -117,10 +117,16 @@ doScroll(document.body, 1000);
 ```
 
 ### getScrollTop
+
+获取元素的scrollTop
+
 ### setScrollTop
+
+设置元素的scrollTop
+
 ### getScrollHeight
 
-获取、设置元素的scrollTop，获取元素的scrollHeight，不传el表示取window
+获取元素的scrollHeight
 
 ```js
 function getScrollTop (el = window) {
@@ -162,4 +168,42 @@ function getScrollHeight(el = window){
 
 getScrollHeight();
 getScrollHeight(document.querySelector('div'));
+```
+
+### isWifi
+
+判断是否是wifi环境，依赖navigator.connection兼容性
+
+- 不支持此属性，返回`true`
+- 支持此属性且是`wifi`，返回`true`
+- 否则返回`false`
+
+### networkChange
+
+监听网络状态变化，依赖navigator.connection兼容性
+
+```js
+function isWifi() {
+    // 支持该属性并且不是wifi返回false，否则返回true
+    if (navigator.connection) {
+        let type = navigator.connection.type;
+
+        if (type && type != 'wifi' && type != 'unknown' && type != 'none') {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+```js
+function networkChange(fn) {
+    if (navigator.connection) {
+        navigator.connection.addEventListener('change', (e) => {
+            fn(e, navigator.connection.type);
+        });
+        return true;
+    }
+    return false;
+}
 ```
