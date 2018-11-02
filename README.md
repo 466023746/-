@@ -1,6 +1,6 @@
 # 常用工具函数
 
-### insideView
+## insideView
 
 判断元素是否在视野内
 
@@ -17,9 +17,12 @@ function insideView(el) {
 insideView(document.body);
 ```
 
-### deepClone
+## deepClone
 
 深拷贝
+
+- 支持数组
+- 支持多个target
 
 ```js
 function deepClone(source, ...targets) {
