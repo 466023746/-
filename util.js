@@ -48,16 +48,23 @@ export function isAndroidWx() {
         && navigator.userAgent.indexOf('MicroMessenger') > -1;
 }
 
-export function getScrollTop () {
+export function getScrollTop (el = window) {
+    const globalObj = [document, window, document.documentElement, document.body];
+    if (globalObj.indexOf(el) === -1) return el.scrollTop;
     return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
 }
 
-export function setScrollTop (top) {
+export function setScrollTop (el = window, top) {
+    const globalObj = [document, window, document.documentElement, document.body];
+    if (globalObj.indexOf(el) === -1) return el.scrollTop = top;
     document.documentElement.scrollTop = document.body.scrollTop = top;
 }
 
-export function getScrollHeight(){
-    var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+export function getScrollHeight(el = window){
+    const globalObj = [document, window, document.documentElement, document.body];
+    if (globalObj.indexOf(el) === -1) return el.scrollHeight;
+
+    let scrollHeight, bodyScrollHeight = 0, documentScrollHeight = 0;
     if(document.body){
         bodyScrollHeight = document.body.scrollHeight;
     }
@@ -69,7 +76,7 @@ export function getScrollHeight(){
 }
 
 export function getWindowHeight(){
-    var windowHeight = 0;
+    let windowHeight = 0;
     if(document.compatMode == "CSS1Compat"){
         windowHeight = document.documentElement.clientHeight;
     }else{

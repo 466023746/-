@@ -115,3 +115,51 @@ function doScroll(el, time) {
 doScroll(document.body);
 doScroll(document.body, 1000);
 ```
+
+### getScrollTop
+### setScrollTop
+### getScrollHeight
+
+获取、设置元素的scrollTop，获取元素的scrollHeight，不传el表示取window
+
+```js
+function getScrollTop (el = window) {
+    const globalObj = [document, window, document.documentElement, document.body];
+    if (globalObj.indexOf(el) === -1) return el.scrollTop;
+    return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+}
+
+getScrollTop();
+getScrollTop(document.querySelector('div'));
+```
+
+```js
+function setScrollTop (top, el = window) {
+    const globalObj = [document, window, document.documentElement, document.body];
+    if (globalObj.indexOf(el) === -1) return el.scrollTop = top;
+    document.documentElement.scrollTop = document.body.scrollTop = top;
+}
+
+setScrollTop(0);
+setScrollTop(0, document.querySelector('div'));
+```
+
+```js
+function getScrollHeight(el = window){
+    const globalObj = [document, window, document.documentElement, document.body];
+    if (globalObj.indexOf(el) === -1) return el.scrollHeight;
+
+    let scrollHeight, bodyScrollHeight = 0, documentScrollHeight = 0;
+    if(document.body){
+        bodyScrollHeight = document.body.scrollHeight;
+    }
+    if(document.documentElement){
+        documentScrollHeight = document.documentElement.scrollHeight;
+    }
+    scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+    return scrollHeight;
+}
+
+getScrollHeight();
+getScrollHeight(document.querySelector('div'));
+```
