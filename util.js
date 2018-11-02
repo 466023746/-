@@ -48,23 +48,6 @@ export function isAndroidWx() {
         && navigator.userAgent.indexOf('MicroMessenger') > -1;
 }
 
-export function isEmpty(obj) {
-    if (!obj) {
-        return true;
-    }
-    if (Object.prototype.toString.call(obj) === '[object Array]') {
-        if (obj.length === 0) {
-            return true;
-        }
-    } else if (Object.prototype.toString.call(obj) === '[object Object]') {
-        let keys = Object.keys(obj);
-        if (keys.length === 0) {
-            return true;
-        }
-    }
-    return false;
-}
-
 export function getScrollTop () {
     return document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
 }
