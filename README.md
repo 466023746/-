@@ -217,3 +217,66 @@ networkChange((e, type) => {
     console.log(type);
 });
 ```
+
+## 浏览器userAgent
+
+### isBaidu
+
+百度浏览器
+
+```js
+function isBaidu() {
+    return navigator.userAgent.indexOf('baiduboxapp') > -1
+        || navigator.userAgent.indexOf('baidubrowser') > -1;
+}
+
+isBaidu();
+```
+
+### isUc
+### isIosUc
+
+uc浏览器
+
+```js
+function isUc() {
+    return navigator.userAgent.indexOf('UCBrowser') > -1;
+}
+
+isUc();
+```
+
+```js
+function isIosUc() {
+    return navigator.userAgent.indexOf('UCBrowser') > -1
+        && navigator.userAgent.indexOf('iPhone') > -1;
+}
+
+isIosUc();
+```
+
+### isQQ
+
+qq浏览器
+
+```js
+function isQQ() {
+    return navigator.userAgent.indexOf('MQQBrowser') > -1
+        && navigator.userAgent.indexOf('MicroMessenger') == -1;
+}
+
+isQQ();
+```
+
+### isAndroidWx
+
+android微信
+
+```js
+function isAndroidWx() {
+    return navigator.userAgent.indexOf('MQQBrowser') > -1
+        && navigator.userAgent.indexOf('MicroMessenger') > -1;
+}
+
+isAndroidWx();
+```
