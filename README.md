@@ -283,3 +283,68 @@ function isAndroidWx() {
 
 isAndroidWx();
 ```
+
+### url parse（url解析）
+
+按照location的标准解析一段url
+
+```js
+function parseUrl(url) {
+    const result = {
+        protocol: '',
+        hostname: '',
+        host: '',
+        port: '',
+        pathname: '',
+        search: '',
+        hash: ''
+    };
+
+    if (!url) {
+        return result;
+    }
+
+    const [url2, hash] = url.split('#');
+    const [url3, search] = url2.split('?');
+    const reg = /^(?:((?:http|https|ftp):)\/\/)?((?:[A-z]+\.)?[A-z0-9]+\.[A-z]+|(?:\d+\.){3}\d+)(?::(\d+))?(\/.+)*/;
+    const [
+        ,
+        protocol = '',
+        hostname = '',
+        port = '',
+        pathname = ''
+    ] = url3.match(reg);
+    const host = port ? `${hostname}:${port}` : hostname;
+
+    function parseToObj(str) {
+        const obj = {};
+
+        if (!str) {
+            return obj;
+        }
+
+        str.split('&').forEach((item) => {
+            const [key, val] = item.split('=');
+
+            obj[key] = val;
+        });
+
+        return obj;
+    }
+
+    const searchObj = parseToObj(search);
+
+    Object.assign(result, {
+        protocol,
+        hostname,
+        host,
+        port,
+        pathname,
+        search: search ? `?${search}` : '',
+        searchObj,
+        hash: hash ? `#${hash}` : ''
+    });
+
+    return result;
+}
+```
